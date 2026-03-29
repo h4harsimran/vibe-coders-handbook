@@ -29,12 +29,12 @@ const currentSlug = pathParts[pathParts.length - 1] || '';
       </a>
     </div>
     <nav class="header-nav">
+      <ThemeToggle />
       <button data-search-trigger aria-label="Search" class="search-btn">
         <Icon name="lucide:search" class="header-icon header-icon--sm" aria-hidden="true" />
         <span class="search-key">⌘K</span>
       </button>
       <div class="header-actions-desktop">
-        <ThemeToggle />
         <a href="/TheVibeCodersHandbook.pdf" class="header-download" download>
           <Icon name="lucide:download" class="header-icon header-icon--sm" aria-hidden="true" />
           Download PDF

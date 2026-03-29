@@ -3,7 +3,7 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme" aria-pressed="false" type="button">
+<button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme" aria-pressed="false" type="button">
   <Icon name="lucide:sun" class="sun theme-toggle-icon" aria-hidden="true" />
   <Icon name="lucide:moon" class="moon theme-toggle-icon" aria-hidden="true" />
 </button>
@@ -45,15 +45,15 @@ import { Icon } from 'astro-icon/components';
 
 <script>
   const syncToggleState = () => {
-    const button = document.getElementById("theme-toggle");
-    if (!button) return;
-
+    const buttons = document.querySelectorAll(".theme-toggle");
     const isDark = document.documentElement.classList.contains("dark");
     const label = isDark ? "Switch to light mode" : "Switch to dark mode";
 
-    button.setAttribute("aria-pressed", String(isDark));
-    button.setAttribute("aria-label", label);
-    button.setAttribute("title", label);
+    buttons.forEach(button => {
+      button.setAttribute("aria-pressed", String(isDark));
+      button.setAttribute("aria-label", label);
+      button.setAttribute("title", label);
+    });
   };
 
   const handleToggleClick = () => {
@@ -65,6 +65,19 @@ import { Icon } from 'astro-icon/components';
     syncToggleState();
   };
 
-  syncToggleState();
-  document.getElementById("theme-toggle")?.addEventListener("click", handleToggleClick);
+  const setupToggles = () => {
+    const buttons = document.querySelectorAll(".theme-toggle");
+    buttons.forEach(button => {
+      // Remove existing listener to avoid duplicates if setupToggles is called multiple times
+      button.removeEventListener("click", handleToggleClick);
+      button.addEventListener("click", handleToggleClick);
+    });
+    syncToggleState();
+  };
+
+  // Initial setup
+  setupToggles();
+
+  // Re-run setup on View Transitions (if used)
+  document.addEventListener('astro:after-swap', setupToggles);
 </script>
