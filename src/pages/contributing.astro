@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/shared/SiteHeader.astro';
+import SiteFooter from '../components/shared/SiteFooter.astro';
+---
+
+<BaseLayout
+  title="Contributing — The Vibe Coder's Handbook"
+  description="Learn how to contribute to The Vibe Coder's Handbook, whether you're fixing a typo, improving an explanation, or adding a new chapter."
+>
+  <SiteHeader variant="docs" />
+
+  <main class="contributing-page">
+    <div class="contributing-shell">
+      <div class="contributing-header">
+        <span class="contributing-label">Contributing</span>
+        <h1 class="contributing-title">Help make the handbook clearer for the next person.</h1>
+        <p class="contributing-desc">You do not need to be a professional developer to contribute. If you can improve an explanation, catch something outdated, or make a chapter easier to understand, you can help.</p>
+      </div>
+
+      <div class="contributing-prose chapter-prose">
+        <blockquote>
+          <p><strong>Good contributions are simple.</strong> Fix a typo. Improve a confusing paragraph. Add a better analogy. Open an issue when something feels off.</p>
+        </blockquote>
+
+        <p>This community edition builds on the original <a href="https://github.com/nasserDev/vibe-coders-handbook" target="_blank" rel="noopener">Vibe Coder&apos;s Handbook repository</a> by <a href="https://github.com/nasserDev" target="_blank" rel="noopener">Nasser AlNasser</a>. The website and community edition live at <a href="https://github.com/h4harsimran/vibe-coders-handbook" target="_blank" rel="noopener">h4harsimran/vibe-coders-handbook</a>.</p>
+
+        <h2>What You Can Contribute</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>How</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fix a typo or grammar issue</td>
+              <td>Edit the relevant chapter file.</td>
+            </tr>
+            <tr>
+              <td>Improve an explanation</td>
+              <td>Rewrite the confusing section in plainer language.</td>
+            </tr>
+            <tr>
+              <td>Add an analogy or example</td>
+              <td>Make the concept easier for non-developers to grasp.</td>
+            </tr>
+            <tr>
+              <td>Correct outdated information</td>
+              <td>Update the chapter and explain what changed.</td>
+            </tr>
+            <tr>
+              <td>Add a new chapter or section</td>
+              <td>Open an issue first, then submit the draft.</td>
+            </tr>
+            <tr>
+              <td>Report a problem</td>
+              <td>Open a GitHub issue even if you are not fixing it yourself.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Where The Content Lives</h2>
+        <p>All chapter content lives in:</p>
+        <pre><code>src/content/chapters/</code></pre>
+        <p>Each file is one chapter. The filename controls the URL. For example:</p>
+        <pre><code>04-frontend-frameworks.md -&gt; /chapters/frontend-frameworks</code></pre>
+
+        <h2>How To Contribute</h2>
+        <h3>Option 1: Edit On GitHub</h3>
+        <ol>
+          <li>Find the chapter file you want to edit in <code>src/content/chapters/</code>.</li>
+          <li>Click the pencil icon on GitHub.</li>
+          <li>Make your change.</li>
+          <li>Create a new branch and open a pull request.</li>
+        </ol>
+        <p>That is the easiest path, and it is enough for most contributions.</p>
+
+        <h3>Option 2: Work Locally</h3>
+        <p>If you are making a larger change, fork the repo and run it locally:</p>
+        <pre><code class="language-bash">git clone https://github.com/YOUR_USERNAME/vibe-coders-handbook.git
+cd vibe-coders-handbook
+npm install
+npm run dev
+npm run check</code></pre>
+
+        <h2>Writing Guidelines</h2>
+        <p>This handbook is for people who are still trying to make sense of the modern JavaScript ecosystem. Write like you are explaining something to a smart friend, not defending a thesis.</p>
+        <ul>
+          <li>Use plain language.</li>
+          <li>Prefer examples and analogies over jargon.</li>
+          <li>Use <code>##</code> for main sections and <code>###</code> for subsections.</li>
+          <li>Do not use <code>#</code> inside chapter bodies.</li>
+          <li>Use root-relative links like <code>/chapters/javascript-and-typescript</code>.</li>
+        </ul>
+
+        <h3>Frontmatter Example</h3>
+        <pre><code class="language-markdown">---
+order: 4
+chapterLabel: "Chapter 4"
+title: "Your Chapter Title"
+description: "One sentence describing what this chapter covers."
+tools: ["Tool1", "Tool2"]
+published: true
+draft: false
+lastUpdated: "2026-03-01"
+---</code></pre>
+
+        <h2>Pull Request Notes</h2>
+        <p>Keep pull requests focused and explain what changed. If the update fixes something inaccurate, mention why. If you want to add a bigger chapter or restructure part of the handbook, open an issue first so the direction is aligned before you spend time on it.</p>
+
+        <h2>What We Avoid</h2>
+        <ul>
+          <li>Needlessly complicated explanations.</li>
+          <li>Content that promotes a company or paid product.</li>
+          <li>Unverified technical claims.</li>
+          <li>Large AI-generated dumps that have not been edited with care.</li>
+        </ul>
+
+        <h2>Questions?</h2>
+        <p>Open an <a href="https://github.com/h4harsimran/vibe-coders-handbook/issues" target="_blank" rel="noopener">issue on GitHub</a> and ask. A contribution does not need to be huge to matter.</p>
+      </div>
+    </div>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .contributing-page {
+    min-height: calc(100vh - 64px);
+    margin-top: 64px;
+    padding: 48px 24px 96px;
+    background: var(--surface-base);
+  }
+
+  .contributing-shell {
+    width: min(100%, 76ch);
+    margin: 0 auto;
+  }
+
+  .contributing-header {
+    margin-bottom: 40px;
+  }
+
+  .contributing-label {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky);
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--interactive-bg) 80%, var(--surface-raised));
+    border: 1px solid var(--interactive-border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .contributing-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(2.3rem, 4vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    color: var(--text-strong);
+    margin: 12px 0 16px;
+    max-width: 12ch;
+    text-wrap: balance;
+  }
+
+  .contributing-desc {
+    max-width: 60ch;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .contributing-prose {
+    max-width: none;
+  }
+
+  @media (max-width: 768px) {
+    .contributing-page {
+      padding: 32px 20px 72px;
+    }
+
+    .contributing-title {
+      max-width: none;
+    }
+
+    .contributing-desc {
+      font-size: 1rem;
+    }
+  }
+</style>

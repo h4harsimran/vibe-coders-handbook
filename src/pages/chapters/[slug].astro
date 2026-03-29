@@ -1,0 +1,69 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import ChapterHeader from '../../components/docs/ChapterHeader.astro';
+import ChapterContent from '../../components/docs/ChapterContent.astro';
+import ChapterNav from '../../components/docs/ChapterNav.astro';
+import { getOrderedChapters, getAdjacentChapters, getChapterSlug } from '../../lib/chapters';
+import { calculateReadingTime } from '../../lib/reading';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const chapters = await getOrderedChapters();
+  return chapters.map((chapter) => {
+    const slug = getChapterSlug(chapter);
+    return {
+      params: { slug },
+      props: { chapter },
+    };
+  });
+}
+
+const { chapter } = Astro.props;
+const { Content, headings } = await render(chapter);
+const { prev, next } = await getAdjacentChapters(chapter.data.order);
+const allChapters = await getOrderedChapters();
+const currentSlug = getChapterSlug(chapter);
+const readingTime = calculateReadingTime(chapter.body);
+---
+
+<DocsLayout
+  title={chapter.data.title}
+  description={chapter.data.description}
+  currentSlug={currentSlug}
+  chapters={allChapters}
+  headings={headings}
+  readingTime={readingTime}
+>
+  <article
+    class="chapter-article"
+    data-pagefind-meta={`title:${chapter.data.title}`}
+    data-pagefind-filter={`chapter:${chapter.data.chapterLabel}`}
+  >
+    <ChapterHeader
+      chapterLabel={chapter.data.chapterLabel}
+      title={chapter.data.title}
+      description={chapter.data.description}
+      tools={chapter.data.tools}
+      lastUpdated={chapter.data.lastUpdated}
+      readingTime={readingTime}
+    />
+
+    <ChapterContent>
+      <Content />
+    </ChapterContent>
+
+    <ChapterNav prev={prev} next={next} />
+  </article>
+</DocsLayout>
+
+<style>
+  .chapter-article {
+    width: min(100%, 70ch);
+  }
+
+  @media (max-width: 768px) {
+    .chapter-article {
+      width: 100%;
+    }
+  }
+</style>

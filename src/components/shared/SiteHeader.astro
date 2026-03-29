@@ -1,0 +1,305 @@
+---
+import { Icon } from 'astro-icon/components';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+import Sidebar from '../docs/Sidebar.astro';
+import type { Chapter } from '../../lib/chapters';
+
+interface Props {
+  variant?: 'default' | 'docs';
+  chapters?: Chapter[];
+}
+
+const { variant = 'default', chapters = [] } = Astro.props;
+const isHome = Astro.url.pathname === '/';
+
+// Compute current slug for sidebar active state
+const pathParts = Astro.url.pathname.split('/');
+const currentSlug = pathParts[pathParts.length - 1] || '';
+---
+
+<header class:list={['site-header', { 'site-header--docs': variant === 'docs', 'site-header--home': isHome }]} data-pagefind-ignore>
+  <div class="header-inner">
+    <div class="header-left">
+      <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-sidebar-dialog">
+        <Icon name="lucide:menu" class="header-icon" aria-hidden="true" />
+      </button>
+      <a href="/" class="logo">
+        <Icon name="lucide:book-open-text" class="logo-icon" aria-hidden="true" />
+        <span class="logo-text">The Vibe Coder's Handbook</span>
+      </a>
+    </div>
+    <nav class="header-nav">
+      <button data-search-trigger aria-label="Search" class="search-btn">
+        <Icon name="lucide:search" class="header-icon header-icon--sm" aria-hidden="true" />
+        <span class="search-key">⌘K</span>
+      </button>
+      <div class="header-actions-desktop">
+        <ThemeToggle />
+        <a href="/TheVibeCodersHandbook.pdf" class="header-download" download>
+          <Icon name="lucide:download" class="header-icon header-icon--sm" aria-hidden="true" />
+          Download PDF
+        </a>
+        <a href="https://github.com/h4harsimran/vibe-coders-handbook" class="github-link" target="_blank" rel="noopener" aria-label="GitHub Repository">
+          <Icon name="simple-icons:github" class="header-icon" aria-hidden="true" />
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<dialog id="mobile-sidebar-dialog" class="sidebar-dialog">
+  <div class="sidebar-dialog-inner">
+    <button id="close-sidebar" class="sidebar-dialog-close" aria-label="Close navigation" type="button">
+      <Icon name="lucide:x" class="sidebar-dialog-close-icon" aria-hidden="true" />
+    </button>
+    <div style="clear:both; margin-bottom: 20px;"></div>
+    <Sidebar chapters={chapters} currentSlug={currentSlug} />
+  </div>
+</dialog>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const dialog = document.getElementById('mobile-sidebar-dialog') as HTMLDialogElement;
+  const close = document.getElementById('close-sidebar');
+
+  if (btn && dialog && close) {
+    btn.addEventListener('click', () => {
+      dialog.showModal();
+      btn.setAttribute('aria-expanded', 'true');
+    });
+
+    const closeDialog = () => {
+      dialog.close();
+      btn.setAttribute('aria-expanded', 'false');
+    };
+
+    close.addEventListener('click', closeDialog);
+
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) closeDialog();
+    });
+
+    // Close on Escape key (handled by native dialog, but we want to update aria-expanded)
+    dialog.addEventListener('close', () => {
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: 64px;
+    background: var(--surface-overlay);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line-soft);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    --header-fg: var(--text-strong);
+    --header-muted: var(--text-muted);
+    --header-control-bg: var(--surface-raised);
+    --header-control-border: var(--line-soft);
+    --header-control-hover-bg: var(--surface-soft);
+    --header-control-hover-border: var(--interactive-border-strong);
+    --header-control-hover-fg: var(--text-strong);
+  }
+
+  :global(.dark) .site-header {
+    background: var(--surface-overlay);
+    box-shadow: 0 12px 32px rgba(2, 6, 23, 0.24);
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-md);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--header-fg);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .logo-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--sky);
+    flex-shrink: 0;
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-actions-desktop {
+    display: none;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .header-icon--sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  .search-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--header-control-bg);
+    border: 1px solid var(--header-control-border);
+    color: var(--header-muted);
+    padding: 0 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    height: 44px;
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  .search-btn:hover {
+    background: var(--header-control-hover-bg);
+    border-color: var(--header-control-hover-border);
+    color: var(--header-control-hover-fg);
+  }
+
+  .search-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    opacity: 0.82;
+  }
+
+  .header-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--blue), var(--indigo));
+    color: var(--text-on-dark);
+    padding: 0 16px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 10px 24px var(--shadow-accent);
+    transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo), filter 0.2s var(--ease-out-expo);
+  }
+
+  .header-download:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px var(--shadow-accent);
+  }
+
+  .github-link {
+    color: var(--header-muted);
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--header-control-bg);
+    border: 1px solid var(--header-control-border);
+  }
+
+  .github-link:hover {
+    background: var(--header-control-hover-bg);
+    border-color: var(--header-control-hover-border);
+    color: var(--header-control-hover-fg);
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--header-control-bg);
+    border: 1px solid var(--header-control-border);
+    color: var(--header-muted);
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 10px;
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  .mobile-menu-btn:hover {
+    background: var(--header-control-hover-bg);
+    border-color: var(--header-control-hover-border);
+    color: var(--header-control-hover-fg);
+  }
+
+  /* Diallog bits kept here for scoped layout */
+  .sidebar-dialog-close {
+    float: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--line-soft);
+    background: var(--surface-soft);
+    color: var(--text-strong);
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  .sidebar-dialog-close:hover {
+    background: var(--interactive-bg);
+    border-color: var(--interactive-border-strong);
+    color: var(--sky);
+  }
+
+  .sidebar-dialog-close-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .header-actions-desktop { display: flex; }
+  }
+
+  @media (max-width: 600px) {
+    .search-key { display: none; }
+    .logo-text { display: none; }
+  }
+
+  /* Hide mobile menu when sidebar becomes persistent */
+  @media (min-width: 1024px) {
+    .mobile-menu-btn { display: none; }
+  }
+</style>

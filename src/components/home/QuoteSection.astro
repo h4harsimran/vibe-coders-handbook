@@ -1,0 +1,102 @@
+---
+// QuoteSection.astro — Community testimonial-style, no author attribution
+import { Icon } from 'astro-icon/components';
+
+const quotes = [
+  { text: "I shipped a full-stack app before I understood what 'server-side rendering' meant. Chapter 6 finally explained it.", name: "Anon, community thread" },
+  { text: "The Zod chapter alone saved me hours of debugging bizarre TypeScript errors.", name: "GitHub issue comment" },
+  { text: "This is the map. Everything else is the territory.", name: "Discord, #general" },
+];
+---
+
+<section class="quote-section">
+  <div class="quote-inner">
+    <span class="section-tag">From the community</span>
+    <div class="quotes-row">
+      {quotes.map(q => (
+        <div class="quote-card">
+          <Icon name="lucide:quote" class="quote-icon" aria-hidden="true" />
+          <p class="quote-text">{q.text}</p>
+          <span class="quote-src">{q.name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .quote-section {
+    padding: 100px 80px;
+    background: var(--navy);
+  }
+
+  .quote-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(248, 251, 255, 0.74);
+    margin-bottom: 36px;
+  }
+
+  .quotes-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .quote-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), transform 0.2s var(--ease-out-expo);
+  }
+
+  .quote-card:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(125, 211, 252, 0.32);
+    transform: translateY(-2px);
+  }
+
+  .quote-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--sky);
+    flex-shrink: 0;
+  }
+
+  .quote-text {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text-on-dark);
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    margin: 0;
+    flex: 1;
+  }
+
+  .quote-src {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(248, 251, 255, 0.72);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .quote-section { padding: 80px 24px; }
+    .quotes-row { grid-template-columns: 1fr; }
+  }
+</style>

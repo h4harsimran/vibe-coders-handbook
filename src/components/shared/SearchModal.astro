@@ -1,0 +1,158 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div id="search-overlay" class="search-overlay" hidden aria-hidden="true"></div>
+
+<div
+  id="search-modal"
+  class="search-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search the handbook"
+  hidden
+>
+  <div class="search-modal-inner">
+    <div class="search-header">
+      <span class="search-title">Search</span>
+      <button id="search-close" aria-label="Close search" type="button">
+        <Icon name="lucide:x" class="search-close-icon" aria-hidden="true" />
+        <kbd>ESC</kbd>
+      </button>
+    </div>
+    <div id="pagefind-search"></div>
+  </div>
+</div>
+
+<style>
+  #search-close {
+    min-height: 40px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  #search-close:hover {
+    background: var(--interactive-bg);
+    border-color: var(--interactive-border-strong);
+    color: var(--text-strong);
+  }
+
+  .search-close-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  kbd {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 4px;
+    background: var(--surface-raised);
+    border-radius: 3px;
+    border: 1px solid var(--line-soft);
+    color: var(--text-subtle);
+  }
+
+  :global(.pagefind-ui__search-input) {
+    background: var(--surface-soft);
+    color: var(--text-body);
+    border: 1px solid var(--line-soft);
+  }
+
+  :global(.pagefind-ui__search-input::placeholder) {
+    color: var(--text-subtle);
+  }
+
+  :global(.pagefind-ui__message),
+  :global(.pagefind-ui__result-excerpt) {
+    color: var(--text-muted);
+  }
+
+  :global(.pagefind-ui__result-link) {
+    color: var(--text-strong);
+  }
+
+  :global(.pagefind-ui__button),
+  :global(.pagefind-ui__search-clear) {
+    background: var(--surface-soft);
+    color: var(--text-strong);
+    border: 1px solid var(--line-soft);
+  }
+</style>
+
+<script is:inline>
+  let _pagefindUI = null;
+
+  function openSearch() {
+    var modal = document.getElementById('search-modal');
+    var overlay = document.getElementById('search-overlay');
+    if (!modal || !overlay) return;
+    modal.hidden = false;
+    overlay.hidden = false;
+    overlay.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+    if (!_pagefindUI) {
+      // Load Pagefind only when someone opens search so the docs shell stays light.
+      var script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.onload = function() {
+        if (window.PagefindUI) {
+          _pagefindUI = new window.PagefindUI({
+            element: '#pagefind-search',
+            showSubResults: true,
+            resetStyles: false,
+          });
+        }
+      };
+      script.onerror = function() {
+        var el = document.getElementById('pagefind-search');
+        if (el) el.innerHTML = '<p style="color:var(--text-muted);font-size:14px;padding:16px;">Search is available after a production build. Run <code style="color:var(--text-strong);background:var(--surface-soft);padding:2px 6px;border-radius:4px;">npm run build</code> first.</p>';
+      };
+      document.head.appendChild(script);
+    }
+    setTimeout(function() {
+      var input = modal.querySelector('input[type="text"]');
+      if (input) input.focus();
+    }, 100);
+  }
+
+  function closeSearch() {
+    var modal = document.getElementById('search-modal');
+    var overlay = document.getElementById('search-overlay');
+    if (!modal || !overlay) return;
+    modal.hidden = true;
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-search-trigger]').forEach(function(t) {
+    t.addEventListener('click', openSearch);
+  });
+  var _overlay = document.getElementById('search-overlay');
+  if (_overlay) _overlay.addEventListener('click', closeSearch);
+  var _close = document.getElementById('search-close');
+  if (_close) _close.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      var modal = document.getElementById('search-modal');
+      if (modal && modal.hidden) openSearch();
+      else closeSearch();
+    }
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('search-modal');
+      if (modal && !modal.hidden) closeSearch();
+    }
+  });
+</script>

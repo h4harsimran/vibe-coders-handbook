@@ -1,0 +1,270 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Chapter } from '../../lib/chapters';
+import { getChapterSlug } from '../../lib/chapters';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+
+interface Props {
+  chapters: Chapter[];
+  currentSlug: string;
+}
+
+const { chapters, currentSlug } = Astro.props;
+
+// Group: intro (order 0), main chapters (1-20), reference (21+)
+const intro = chapters.filter(c => c.data.order === 0);
+const main = chapters.filter(c => c.data.order >= 1 && c.data.order <= 20);
+const reference = chapters.filter(c => c.data.order >= 21);
+---
+
+<nav class="sidebar-nav" aria-label="Chapter navigation">
+  <a href="/" class="sidebar-home">
+    <Icon name="lucide:book-open-text" class="sidebar-home-icon" aria-hidden="true" />
+    <span>Handbook</span>
+  </a>
+  <hr class="sidebar-divider" />
+
+  <button data-search-trigger class="sidebar-search-btn">
+    <Icon name="lucide:search" class="sidebar-ui-icon" aria-hidden="true" />
+    Search...
+    <kbd>⌘K</kbd>
+  </button>
+
+  <hr class="sidebar-divider" />
+
+  {intro.length > 0 && (
+    <div class="sidebar-group">
+      <span class="sidebar-group-label">Before We Begin</span>
+      {intro.map(ch => {
+        const slug = getChapterSlug(ch);
+        const isActive = slug === currentSlug;
+        return (
+          <a
+            href={`/chapters/${slug}`}
+            class:list={['sidebar-link', { 'sidebar-link--active': isActive }]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {ch.data.title}
+            {ch.data.draft && <span class="draft-badge">DRAFT</span>}
+          </a>
+        );
+      })}
+    </div>
+  )}
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Chapters</span>
+    {main.map(ch => {
+      const slug = getChapterSlug(ch);
+      const isActive = slug === currentSlug;
+      return (
+        <a
+          href={`/chapters/${slug}`}
+          class:list={['sidebar-link', { 'sidebar-link--active': isActive }]}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          <span class="chapter-num">{ch.data.order}.</span>
+          <span>{ch.data.title}</span>
+          {ch.data.draft && <span class="draft-badge">DRAFT</span>}
+        </a>
+      );
+    })}
+  </div>
+
+  {reference.length > 0 && (
+    <>
+      <hr class="sidebar-divider" />
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">Reference</span>
+        {reference.map(ch => {
+          const slug = getChapterSlug(ch);
+          const isActive = slug === currentSlug;
+          return (
+            <a
+              href={`/chapters/${slug}`}
+              class:list={['sidebar-link', { 'sidebar-link--active': isActive }]}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {ch.data.title}
+            </a>
+          );
+        })}
+      </div>
+    </>
+  )}
+
+  <hr class="sidebar-divider" />
+  <div class="sidebar-mobile-actions">
+    <div class="sidebar-theme-wrapper">
+      <span class="sidebar-group-label">Appearance</span>
+      <ThemeToggle />
+    </div>
+    <a href="https://github.com/h4harsimran/vibe-coders-handbook" class="sidebar-link sidebar-github-mobile" target="_blank" rel="noopener">
+      <Icon name="simple-icons:github" class="sidebar-ui-icon" aria-hidden="true" />
+      <span>GitHub Repository</span>
+    </a>
+  </div>
+
+  <hr class="sidebar-divider" />
+  <a href="/TheVibeCodersHandbook.pdf" class="sidebar-download" download>
+    <Icon name="lucide:file-text" class="sidebar-ui-icon" aria-hidden="true" />
+    <span>Download PDF</span>
+  </a>
+</nav>
+
+<style>
+  .sidebar-nav {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .sidebar-mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Only show these in the mobile drawer, hide in persistent desktop sidebar */
+  @media (min-width: 1024px) {
+    .sidebar-mobile-actions {
+      display: none;
+    }
+  }
+
+  .sidebar-theme-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-theme-wrapper .sidebar-group-label {
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-github-mobile {
+    margin-top: 4px;
+  }
+
+  .sidebar-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-strong);
+    text-decoration: none;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar-home-icon,
+  .sidebar-ui-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-home-icon {
+    color: var(--sky);
+  }
+
+  .sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--line-soft);
+    margin: 12px 0;
+  }
+
+  .sidebar-search-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  .sidebar-search-btn:hover {
+    background: var(--interactive-bg);
+    border-color: var(--interactive-border-strong);
+    color: var(--text-strong);
+  }
+
+  .sidebar-search-btn kbd {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 4px;
+    background: var(--surface-raised);
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    color: var(--text-subtle);
+  }
+
+  .sidebar-group { margin: 4px 0; }
+
+  .sidebar-group-label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+    padding: 4px 8px;
+    margin-bottom: 4px;
+  }
+
+  .chapter-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    min-width: 24px;
+    color: var(--text-subtle);
+  }
+
+  .sidebar-link--active .chapter-num { color: var(--sky); }
+
+  .draft-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    background: rgba(245, 158, 11, 0.14);
+    border: 1px solid rgba(245, 158, 11, 0.28);
+    color: var(--amber);
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+
+  .sidebar-download {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-strong);
+    text-decoration: none;
+    border-radius: 8px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line-soft);
+    transition: background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+
+  .sidebar-download:hover {
+    background: var(--interactive-bg);
+    border-color: var(--interactive-border-strong);
+    color: var(--sky);
+  }
+</style>

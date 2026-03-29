@@ -1,0 +1,166 @@
+---
+import PrintLayout from '../layouts/PrintLayout.astro';
+import { getOrderedChapters } from '../lib/chapters';
+import { calculateReadingTime } from '../lib/reading';
+import { getContributors } from '../lib/contributors';
+import { render } from 'astro:content';
+
+const chapters = await getOrderedChapters();
+const contributors = await getContributors();
+
+const credits = {
+  originalAuthor: {
+    login: 'nasserDev',
+    name: 'Nasser AlNasser',
+    href: 'https://github.com/nasserDev',
+    note: 'Wrote the handbook that started it all.',
+  },
+  maintainer: {
+    login: 'h4harsimran',
+    name: 'Harsimran',
+    href: 'https://github.com/h4harsimran',
+    note: 'Shaping the living web edition with the community.',
+  },
+};
+
+const reservedLogins = new Set([credits.originalAuthor.login, credits.maintainer.login]);
+const communityContributors = contributors.filter((contributor) => !reservedLogins.has(contributor.login));
+
+const renderedChapters = await Promise.all(
+  chapters.map(async (chapter) => {
+    const { Content } = await render(chapter);
+    return { chapter, Content, readingTime: calculateReadingTime(chapter.body) };
+  })
+);
+---
+
+<PrintLayout>
+  <div class="print-cover">
+    <div class="cover-grid">
+      <div class="cover-copy">
+        <div>
+          <p class="print-label">March 2026 Edition</p>
+          <h1>The Vibe Coder&apos;s Handbook</h1>
+          <p class="print-subtitle">Understanding Every Tool Your AI Just Used</p>
+        </div>
+
+        <div class="cover-foot">
+          <div>
+            <p class="print-edition">vibecodershandbook.pages.dev</p>
+          </div>
+          <p class="print-meta">{chapters.length} chapters</p>
+        </div>
+      </div>
+
+      <div class="cover-art" aria-hidden="true">
+        <div class="cover-orbit"></div>
+        <div class="cover-lines"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="print-contents">
+    <div class="contents-shell">
+      <div class="contents-head">
+        <div>
+          <p class="contents-kicker">Contents</p>
+          <h2 class="contents-title">Table of Contents</h2>
+        </div>
+      </div>
+
+      <div class="contents-grid">
+        {renderedChapters.map(({ chapter, readingTime }) => (
+          <div class="contents-item">
+            <div class="contents-item-head">
+              <span class="contents-item-label">{chapter.data.chapterLabel}</span>
+              <span class="contents-item-time">{readingTime} min</span>
+            </div>
+            <h3 class="contents-item-title">{chapter.data.title}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {renderedChapters.map(({ chapter, Content, readingTime }) => (
+    <section class="chapter-page">
+      <div class="chapter-shell">
+        <div class="chapter-hero">
+          <div class="chapter-kicker-row">
+            <div class="chapter-meta">
+              <span class="chapter-label">{chapter.data.chapterLabel}</span>
+              <span class="chapter-reading-time">{readingTime} min read</span>
+            </div>
+          </div>
+
+          <h1 class="chapter-title">{chapter.data.title}</h1>
+          <p class="chapter-desc">{chapter.data.description}</p>
+
+          {chapter.data.tools.length > 0 && (
+            <div class="chapter-tools">
+              {chapter.data.tools.map((tool) => (
+                <span class="chapter-tool">{tool}</span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div class="chapter-body">
+          <Content />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="chapter-page contributors-page">
+    <div class="chapter-shell">
+      <div class="chapter-hero">
+        <div class="chapter-kicker-row">
+          <div class="chapter-meta">
+            <span class="chapter-label">Appendix</span>
+          </div>
+        </div>
+
+        <h1 class="chapter-title">Contributors</h1>
+        <p class="chapter-desc">The people helping shape and maintain this edition of the handbook.</p>
+      </div>
+
+      <div class="chapter-body">
+        <div class="contributors-print-sections">
+          <section class="contributors-print-section">
+            <p class="contributors-print-label">Original Handbook</p>
+            <a href={credits.originalAuthor.href} class="contributors-print-feature">
+              <span class="contributors-print-name">{credits.originalAuthor.name}</span>
+              <span class="contributors-print-handle">@{credits.originalAuthor.login}</span>
+              <span class="contributors-print-note">{credits.originalAuthor.note}</span>
+            </a>
+          </section>
+
+          <section class="contributors-print-section">
+            <p class="contributors-print-label">Community Edition</p>
+            <a href={credits.maintainer.href} class="contributors-print-feature">
+              <span class="contributors-print-name">{credits.maintainer.name}</span>
+              <span class="contributors-print-handle">@{credits.maintainer.login}</span>
+              <span class="contributors-print-note">{credits.maintainer.note}</span>
+            </a>
+          </section>
+
+          <section class="contributors-print-section">
+            <p class="contributors-print-label">Contributors</p>
+            {communityContributors.length > 0 ? (
+              <div class="contributors-print-grid">
+                {communityContributors.map((contributor) => (
+                  <a href={contributor.html_url} class="contributors-print-item">
+                    <span class="contributors-print-login">@{contributor.login}</span>
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <p>See the live contributors list at vibecodershandbook.pages.dev/contributors.</p>
+            )}
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</PrintLayout>

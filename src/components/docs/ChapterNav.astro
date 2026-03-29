@@ -1,0 +1,33 @@
+---
+import type { Chapter } from '../../lib/chapters';
+import { getChapterSlug } from '../../lib/chapters';
+
+interface Props {
+  prev: Chapter | null;
+  next: Chapter | null;
+}
+
+const { prev, next } = Astro.props;
+---
+
+<nav class="chapter-nav" aria-label="Chapter navigation">
+  {prev && (
+    <a href={`/chapters/${getChapterSlug(prev)}`} class="chapter-nav-link chapter-nav-prev">
+      <span class="nav-direction">← Previous</span>
+      <span class="nav-title">
+        <span class="nav-label">{prev.data.chapterLabel}</span>
+        {prev.data.title}
+      </span>
+    </a>
+  )}
+  {!prev && <div></div>}
+  {next && (
+    <a href={`/chapters/${getChapterSlug(next)}`} class="chapter-nav-link chapter-nav-next">
+      <span class="nav-direction">Next →</span>
+      <span class="nav-title">
+        <span class="nav-label">{next.data.chapterLabel}</span>
+        {next.data.title}
+      </span>
+    </a>
+  )}
+</nav>

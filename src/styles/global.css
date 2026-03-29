@@ -1,0 +1,544 @@
+/* ============================================
+   Global Styles — The Vibe Coder's Handbook
+   ============================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Color Palette (CSS Custom Properties) ── */
+:root {
+  /* ── Color Palette ── */
+  --navy:   #0F172A;
+  --blue:   #1E40AF;
+  --sky:    #0284C7;
+  --indigo: #4F46E5;
+  --text-strong: #172033;
+  --text-body:   #314055;
+  --text-muted:  #506178;
+  --text-subtle: #6E7F96;
+  --text-inverse: #08111F;
+  --text-on-dark: #F8FBFF;
+  --text-on-accent: #F8FBFF;
+  --surface-base: #F6F8FC;
+  --surface-raised: #FFFFFF;
+  --surface-soft: #EDF2F8;
+  --surface-strong: #0F172A;
+  --surface-overlay: rgba(246, 248, 252, 0.9);
+  --line-soft: rgba(100, 116, 139, 0.18);
+  --line-strong: rgba(100, 116, 139, 0.32);
+  --overlay: rgba(15, 23, 42, 0.56);
+  --overlay-strong: rgba(15, 23, 42, 0.72);
+  --interactive-bg: rgba(2, 132, 199, 0.08);
+  --interactive-hover: rgba(2, 132, 199, 0.14);
+  --interactive-border: rgba(2, 132, 199, 0.24);
+  --interactive-border-strong: rgba(2, 132, 199, 0.42);
+  --focus-ring: rgba(2, 132, 199, 0.62);
+  --shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-strong: 0 24px 64px rgba(15, 23, 42, 0.18);
+  --shadow-accent: rgba(30, 64, 175, 0.24);
+  --slate:  var(--text-body);
+  --gray:   var(--text-muted);
+  --light:  var(--text-subtle);
+  --view-border: var(--line-soft);
+  --border: #D8E1EC;
+  --bg:     var(--surface-base);
+  --card-bg: var(--surface-raised);
+  --white:  #FFFFFF;
+  --amber:  #f59e0b;
+  --green:  #22C55E;
+  --red:    #EF4444;
+  --violet: #8B5CF6;
+  
+  /* ── Terminal Theme (Dark by default) ── */
+  --term-bg:     #0D1117;
+  --term-header: #161B22;
+  --term-border: #21262D;
+  --term-key:    #79C0FF;
+  --term-val:    #A5F3B5;
+  --term-comment:#8B949E;
+  --term-text:   #E6EDF3;
+  --term-cursor: #58A6FF;
+  --term-red:    #FF5F57;
+  --term-yellow: #FEBC2E;
+  --term-green:  #28C840;
+
+  /* ── Fluid Typography Scale (16px base, 1.25 ratio) ── */
+  --text-xs:   clamp(0.64rem, 0.05vw + 0.63rem, 0.67rem);
+  --text-sm:   clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem);
+  --text-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+  --text-lg:   clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
+  --text-xl:   clamp(1.56rem, 1.0vw + 1.31rem, 2.11rem);
+  --text-2xl:  clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
+  --text-3xl:  clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+  --text-4xl:  clamp(3.05rem, 3.54vw + 2.17rem, 5rem);
+
+  /* ── Fluid Spacing Scale ── */
+  --space-xs: clamp(0.5rem, 0.23vw + 0.44rem, 0.63rem);
+  --space-sm: clamp(1rem, 0.45vw + 0.89rem, 1.25rem);
+  --space-md: clamp(1.5rem, 0.91vw + 1.27rem, 2rem);
+  --space-lg: clamp(2rem, 1.36vw + 1.66rem, 2.75rem);
+  --space-xl: clamp(3rem, 2.73vw + 2.32rem, 4.5rem);
+  --space-2xl: clamp(4rem, 4.55vw + 2.86rem, 6.5rem);
+
+  /* ── Motion & Easing ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ── Dark Mode Overrides (Class-based) ── */
+.dark {
+  --navy:   #020617;
+  --blue:   #2563EB;
+  --sky:    #38BDF8;
+  --indigo: #6366F1;
+  --text-strong: #F2F7FF;
+  --text-body:   #D8E1F0;
+  --text-muted:  #B6C4D8;
+  --text-subtle: #94A3B8;
+  --text-inverse: #08111F;
+  --text-on-dark: #F2F7FF;
+  --text-on-accent: #08111F;
+  --surface-base: #0B1220;
+  --surface-raised: #121B2B;
+  --surface-soft: #172235;
+  --surface-strong: #060D19;
+  --surface-overlay: rgba(11, 18, 32, 0.9);
+  --line-soft: rgba(148, 163, 184, 0.2);
+  --line-strong: rgba(148, 163, 184, 0.34);
+  --overlay: rgba(2, 6, 23, 0.66);
+  --overlay-strong: rgba(2, 6, 23, 0.82);
+  --interactive-bg: rgba(56, 189, 248, 0.12);
+  --interactive-hover: rgba(56, 189, 248, 0.18);
+  --interactive-border: rgba(56, 189, 248, 0.24);
+  --interactive-border-strong: rgba(125, 211, 252, 0.44);
+  --focus-ring: rgba(125, 211, 252, 0.72);
+  --shadow-soft: 0 12px 32px rgba(2, 6, 23, 0.28);
+  --shadow-strong: 0 28px 80px rgba(2, 6, 23, 0.44);
+  --shadow-accent: rgba(37, 99, 235, 0.34);
+  --slate:  var(--text-body);
+  --gray:   var(--text-muted);
+  --light:  var(--text-subtle);
+  --border: #334155;
+  --bg:     var(--surface-base);
+  --card-bg: var(--surface-raised);
+  --white:  #FFFFFF;
+  --amber:  #fbbf24;
+  --green:  #4ADE80;
+  --red:    #F87171;
+  --violet: #A78BFA;
+  color-scheme: dark;
+}
+
+/* ── Pagefind UI Color Overrides ── */
+:root {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--sky);
+  --pagefind-ui-text: var(--text-body);
+  --pagefind-ui-background: var(--surface-raised);
+  --pagefind-ui-border: var(--line-soft);
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: 'DM Sans', sans-serif;
+}
+
+/* ── Base Resets ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-body);
+  background-color: var(--surface-base);
+  line-height: 1.6;
+}
+
+/* ── Hidden utility ── */
+[hidden] { display: none !important; }
+
+/* ── Selection color ── */
+::selection {
+  background: var(--interactive-hover);
+  color: var(--text-strong);
+}
+
+/* ── Focus visible styles ── */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Specific focus for rounded elements */
+.btn-primary:focus-visible,
+.btn-outline:focus-visible,
+.btn-ghost:focus-visible,
+.chapter-item:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ── Scrollbar styling (Webkit) ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
+
+/* ── Hero Staggered Animations ── */
+.animate-fade-up-0 { animation: fadeUp 0.4s var(--ease-out-expo) 0.0s both; }
+.animate-fade-up-1 { animation: fadeUp 0.4s var(--ease-out-expo) 0.05s both; }
+.animate-fade-up-2 { animation: fadeUp 0.4s var(--ease-out-expo) 0.1s both; }
+.animate-fade-up-3 { animation: fadeUp 0.4s var(--ease-out-expo) 0.15s both; }
+.animate-fade-up-4 { animation: fadeUp 0.4s var(--ease-out-expo) 0.2s both; }
+.animate-fade-up-5 { animation: fadeUp 0.4s var(--ease-out-expo) 0.25s both; }
+
+/* ── Reveal on Scroll ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.6s var(--ease-out-quart), transform 0.6s var(--ease-out-quart);
+  will-change: opacity, transform;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* ── Gradient text utility ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--sky), var(--indigo));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── CTA button styles ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--blue), var(--indigo));
+  color: var(--text-on-dark);
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 24px var(--shadow-accent);
+  transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo), filter 0.2s var(--ease-out-expo);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px var(--shadow-accent);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-on-dark);
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-out-expo), background-color 0.2s var(--ease-out-expo);
+}
+
+.btn-ghost:hover {
+  border-color: var(--interactive-border-strong);
+  background: var(--interactive-bg);
+}
+
+/* ── Section label (overline) ── */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--sky);
+}
+
+/* ── Search modal styles ── */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-strong);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+.search-modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, calc(100vw - 32px));
+  background: var(--surface-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  box-shadow: var(--shadow-strong);
+  z-index: 101;
+  overflow: hidden;
+  color: var(--text-body);
+}
+
+.search-modal-inner { padding: 20px; }
+
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.search-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+/* ── Sidebar styles ── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.15s var(--ease-out-expo), background-color 0.15s var(--ease-out-expo);
+  border-left: 2px solid transparent;
+}
+
+.sidebar-link:hover {
+  color: var(--text-strong);
+  background: var(--surface-soft);
+}
+
+.sidebar-link--active {
+  color: var(--sky);
+  background: var(--interactive-bg);
+  border-left-color: var(--sky);
+  font-weight: 600;
+}
+
+/* ── TOC styles ── */
+.toc { position: sticky; top: 80px; }
+
+.toc-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.toc-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin: 0 0 4px;
+}
+
+.toc-readtime {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sky);
+}
+
+.toc-progress {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--interactive-border);
+  background: var(--interactive-bg);
+  color: var(--text-strong);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-item { line-height: 1.4; }
+.toc-depth-3 { padding-left: 12px; }
+
+.toc-link {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 0;
+  border-left: 2px solid transparent;
+  padding-left: 8px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.toc-link:hover { color: var(--text-strong); }
+
+.toc-link--active {
+  color: var(--sky);
+  border-left-color: var(--sky);
+  font-weight: 500;
+}
+
+/* ── Chapter Navigation ── */
+.chapter-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.chapter-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-body);
+  background: var(--surface-raised);
+  transition: border-color 0.2s var(--ease-out-expo), background-color 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo);
+}
+
+.chapter-nav-link:hover {
+  border-color: var(--interactive-border-strong);
+  background: var(--surface-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.chapter-nav-next { text-align: right; }
+.nav-direction { font-size: 12px; color: var(--text-subtle); }
+.nav-label { display: block; font-size: 11px; color: var(--sky); font-family: 'Space Mono', monospace; }
+.nav-title { font-weight: 500; font-size: 15px; color: var(--text-strong); }
+
+@media (max-width: 640px) {
+  .chapter-nav { grid-template-columns: 1fr; }
+  .chapter-nav-next { text-align: left; }
+}
+
+/* ── Mobile sidebar dialog ── */
+.sidebar-dialog {
+  display: block; /* Required for transition to work with dialog */
+  padding: 0;
+  border: none;
+  max-width: 320px;
+  width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  z-index: 200;
+  background: var(--surface-raised);
+  overflow-y: auto;
+  border-right: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-strong);
+  
+  /* Initial state (hidden) */
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.4s var(--ease-out-expo), visibility 0.4s var(--ease-out-expo);
+}
+
+.sidebar-dialog[open] {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.sidebar-dialog::backdrop {
+  background: var(--overlay);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+
+.sidebar-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+.sidebar-dialog-inner {
+  padding: 20px;
+}
+
+/* ── Keyframe Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px) translateZ(0); }
+  to   { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(-30px, 20px, 0) rotate(2deg); }
+}
+
+@keyframes scroll {
+  0%   { transform: translateX(0) translateZ(0); }
+  100% { transform: translateX(-50%) translateZ(0); }
+}
+
+/* ── Reduced Motion — Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

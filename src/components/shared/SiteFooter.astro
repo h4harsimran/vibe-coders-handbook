@@ -1,0 +1,146 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <Icon name="lucide:book-open-text" class="footer-logo-icon" aria-hidden="true" />
+          <span>The Vibe Coder's Handbook</span>
+        </a>
+        <p class="footer-tagline">The clearest map of the modern JavaScript ecosystem. Community built, forever free.</p>
+        <div class="footer-copy">
+          <span>© {new Date().getFullYear()} Community Edition</span>
+        </div>
+      </div>
+
+      <div class="footer-nav">
+        <div class="nav-group">
+          <span class="nav-title">Handbook</span>
+          <a href="/chapters/introduction">Read online</a>
+          <a href="/TheVibeCodersHandbook.pdf" download>Download PDF</a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-title">Community</span>
+          <a href="/contributing">How to contribute</a>
+          <a href="/contributors">Contributors</a>
+          <a href="https://github.com/h4harsimran/vibe-coders-handbook" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: var(--space-xl) var(--space-md);
+    background:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 32%),
+      linear-gradient(180deg, #0f172a, #0a1120 72%);
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+    color: var(--text-on-dark);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 64px;
+    margin-bottom: 64px;
+  }
+
+  .footer-brand {
+    max-width: 320px;
+  }
+
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-on-dark);
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+
+  .footer-logo-icon {
+    width: 18px;
+    height: 18px;
+    color: #7dd3fc;
+    flex-shrink: 0;
+  }
+
+  .footer-tagline {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: rgba(226, 232, 240, 0.78);
+    margin: 0;
+  }
+
+  .footer-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 48px;
+    min-width: 420px;
+  }
+
+  .nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(148, 163, 184, 0.72);
+    margin-bottom: 4px;
+  }
+
+  .footer-nav a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(226, 232, 240, 0.82);
+    text-decoration: none;
+    transition: color 0.15s var(--ease-out-expo);
+  }
+
+  .footer-nav a:hover {
+    color: #ffffff;
+  }
+
+  .footer-copy {
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(148, 163, 184, 0.74);
+  }
+
+  @media (max-width: 900px) {
+    .site-footer { padding: 60px 24px 40px; }
+    .footer-top { flex-direction: column; gap: 48px; }
+    .footer-nav {
+      grid-template-columns: 1fr 1fr;
+      min-width: 0;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .footer-nav {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

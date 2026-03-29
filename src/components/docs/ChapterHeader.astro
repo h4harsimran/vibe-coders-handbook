@@ -1,0 +1,142 @@
+---
+interface Props {
+  chapterLabel: string;
+  title: string;
+  description: string;
+  tools: string[];
+  lastUpdated?: string;
+  readingTime: number;
+}
+
+const { chapterLabel, title, description, tools, lastUpdated, readingTime } = Astro.props;
+---
+
+<div class="chapter-header">
+  <span class="chapter-label-tag">{chapterLabel.toUpperCase()}</span>
+  <h1 class="chapter-page-title">{title}</h1>
+  <p class="chapter-description">{description}</p>
+
+  {tools.length > 0 && (
+    <div class="chapter-tools">
+      {tools.map(tool => (
+        <span class="tool-pill">{tool}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="chapter-meta">
+    <span class="meta-item meta-item--accent">{readingTime} min read</span>
+    {lastUpdated && <span class="meta-item">Last updated: {lastUpdated}</span>}
+  </div>
+
+  <hr class="chapter-divider" />
+</div>
+
+<style>
+  .chapter-header {
+    margin-bottom: 32px;
+  }
+
+  .chapter-label-tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky);
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--interactive-bg) 80%, var(--surface-raised));
+    border: 1px solid var(--interactive-border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .chapter-page-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(2.5rem, 3.8vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+    margin: 10px 0 14px;
+    line-height: 1.02;
+  }
+
+  .chapter-description {
+    max-width: 58ch;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0 0 18px;
+  }
+
+  .chapter-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .tool-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--sky);
+    background: var(--interactive-bg);
+    border: 1px solid var(--interactive-border);
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .chapter-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-subtle);
+  }
+
+  .meta-item--accent {
+    color: var(--sky);
+    font-weight: 700;
+  }
+
+  .meta-item--accent::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--sky), var(--indigo));
+    box-shadow: 0 0 0 4px var(--interactive-bg);
+  }
+
+  .chapter-divider {
+    border: none;
+    border-top: 1px solid var(--line-soft);
+    margin: 24px 0 0;
+  }
+
+  @media (max-width: 768px) {
+    .chapter-page-title {
+      font-size: clamp(2.1rem, 10vw, 2.75rem);
+      line-height: 1.12;
+    }
+
+    .chapter-description {
+      max-width: none;
+      font-size: 1rem;
+    }
+  }
+</style>

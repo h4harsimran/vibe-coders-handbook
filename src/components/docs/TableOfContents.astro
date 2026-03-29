@@ -1,0 +1,70 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  readingTime: number;
+}
+
+const { headings, readingTime } = Astro.props;
+const filtered = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{filtered.length > 0 && (
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-header">
+      <div>
+        <p class="toc-label">On This Page</p>
+        <p class="toc-readtime">{readingTime} min read</p>
+      </div>
+      <span class="toc-progress" data-reading-progress-label>0%</span>
+    </div>
+    <ul class="toc-list">
+      {filtered.map((heading) => (
+        <li class:list={['toc-item', `toc-depth-${heading.depth}`]}>
+          <a href={`#${heading.slug}`} class="toc-link" data-heading={heading.slug}>
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  const headingEls = document.querySelectorAll('h2[id], h3[id]');
+  const tocLinks = document.querySelectorAll('.toc-link[data-heading]');
+  const progressLabel = document.querySelector('[data-reading-progress-label]');
+
+  if (headingEls.length && tocLinks.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => link.classList.remove('toc-link--active'));
+            const active = document.querySelector(`.toc-link[data-heading="${entry.target.id}"]`);
+            active?.classList.add('toc-link--active');
+          }
+        });
+      },
+      { rootMargin: '0px 0px -80% 0px', threshold: 0 }
+    );
+
+    headingEls.forEach((el) => observer.observe(el));
+  }
+
+  const updateProgressLabel = () => {
+    const article = document.querySelector('.chapter-article');
+    if (!article || !progressLabel) return;
+
+    const rect = article.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const total = Math.max(article.scrollHeight - viewportHeight, 1);
+    const traveled = Math.min(Math.max(-rect.top, 0), total);
+    const progress = Math.round((traveled / total) * 100);
+
+    progressLabel.textContent = `${progress}%`;
+  };
+
+  updateProgressLabel();
+  window.addEventListener('scroll', updateProgressLabel, { passive: true });
+  window.addEventListener('resize', updateProgressLabel);
+</script>

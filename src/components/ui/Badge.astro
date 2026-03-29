@@ -1,0 +1,40 @@
+---
+interface Props {
+  variant?: 'sky' | 'indigo' | 'amber' | 'gray';
+  size?: 'sm' | 'md';
+}
+
+const { variant = 'sky', size = 'sm' } = Astro.props;
+
+const colors = {
+  sky: { color: 'var(--sky)', bg: 'var(--interactive-bg)', border: 'var(--interactive-border)' },
+  indigo: { color: 'var(--indigo)', bg: 'rgba(79, 70, 229, 0.1)', border: 'rgba(79, 70, 229, 0.24)' },
+  amber: { color: 'var(--amber)', bg: 'rgba(245, 158, 11, 0.12)', border: 'rgba(245, 158, 11, 0.28)' },
+  gray: { color: 'var(--text-muted)', bg: 'var(--surface-soft)', border: 'var(--line-soft)' },
+};
+
+const c = colors[variant];
+---
+
+<span
+  class:list={['badge', `badge-${size}`]}
+  style={`color: ${c.color}; background: ${c.bg}; border-color: ${c.border};`}
+>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 100px;
+  }
+
+  .badge-sm { font-size: 10px; padding: 4px 12px; }
+  .badge-md { font-size: 11px; padding: 8px 20px; letter-spacing: 4px; }
+</style>

@@ -1,0 +1,87 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'pdf' | 'docx' | 'github';
+  label?: string;
+}
+
+const { size = 'md', variant = 'pdf', label } = Astro.props;
+
+const config = {
+  pdf: { href: '/TheVibeCodersHandbook.pdf', icon: 'lucide:file-text', defaultLabel: 'Download Free PDF', download: true },
+  docx: { href: '/TheVibeCodersHandbook.docx', icon: 'lucide:file-pen-line', defaultLabel: 'Download DOCX', download: true },
+  github: { href: 'https://github.com/h4harsimran/vibe-coders-handbook', icon: 'simple-icons:github', defaultLabel: 'Star on GitHub', download: false },
+};
+
+const c = config[variant];
+const buttonLabel = label || c.defaultLabel;
+const sizeClasses = { sm: 'btn-sm', md: 'btn-md', lg: 'btn-lg' };
+---
+
+<a
+  href={c.href}
+  class:list={['download-btn', `download-btn--${variant}`, sizeClasses[size]]}
+  {...c.download ? { download: true } : { target: '_blank', rel: 'noopener' }}
+>
+  <Icon name={c.icon} class="download-icon" aria-hidden="true" />
+  {buttonLabel}
+</a>
+
+<style>
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo), background 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo), filter 0.3s var(--ease-out-expo);
+    cursor: pointer;
+  }
+
+  .download-btn--pdf {
+    background: linear-gradient(135deg, var(--blue), var(--indigo));
+    color: var(--text-on-dark);
+    box-shadow: 0 10px 24px var(--shadow-accent);
+  }
+  .download-btn--pdf:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px var(--shadow-accent);
+  }
+
+  .download-btn--docx {
+    background: var(--surface-raised);
+    color: var(--text-strong);
+    border: 1px solid var(--line-soft);
+  }
+  .download-btn--docx:hover {
+    background: var(--surface-soft);
+    border-color: var(--interactive-border-strong);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+
+  .download-btn--github {
+    background: var(--surface-strong);
+    color: var(--text-on-dark);
+    border: 1px solid var(--line-strong);
+  }
+  .download-btn--github:hover {
+    border-color: var(--interactive-border-strong);
+    filter: brightness(1.06);
+    transform: translateY(-2px);
+  }
+
+  .btn-sm { padding: 8px 16px; font-size: 13px; }
+  .btn-md { padding: 14px 28px; font-size: 15px; }
+  .btn-lg { padding: 18px 40px; font-size: 17px; }
+
+  .download-icon {
+    width: 1.1em;
+    height: 1.1em;
+    flex-shrink: 0;
+  }
+</style>

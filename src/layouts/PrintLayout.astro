@@ -1,0 +1,718 @@
+---
+// PrintLayout.astro — Print-only layout for PDF generation
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Vibe Coder's Handbook — Print Edition</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style is:global>
+    :root {
+      --navy: #0f172a;
+      --blue: #1e40af;
+      --sky: #0284c7;
+      --indigo: #4f46e5;
+      --paper: #fcfcfb;
+      --paper-soft: #f5f6f8;
+      --paper-strong: #e8ebef;
+      --ink: #172033;
+      --body: #344154;
+      --muted: #6b7688;
+      --line: rgba(100, 116, 139, 0.18);
+      --card: #ffffff;
+      --accent-soft: rgba(2, 132, 199, 0.05);
+      --accent-mid: rgba(79, 70, 229, 0.08);
+      --code-bg: #0f172a;
+      --code-fg: #eff6ff;
+      --success: #0f766e;
+      --warning: #b45309;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--paper);
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 11.2pt;
+      line-height: 1.7;
+      color: var(--body);
+      background: var(--paper);
+    }
+
+    .print-cover {
+      min-height: 246mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      padding: 30pt 22pt 20pt 28pt;
+      border-radius: 18pt;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.96)),
+        radial-gradient(circle at top right, rgba(2, 132, 199, 0.08), transparent 30%),
+        var(--paper);
+      color: var(--ink);
+      border: 1pt solid rgba(148, 163, 184, 0.16);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .print-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 10pt;
+      background: linear-gradient(180deg, var(--blue), var(--indigo));
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18pt;
+      align-items: stretch;
+    }
+
+    .cover-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 184mm;
+    }
+
+    .cover-art {
+      position: relative;
+      border-radius: 14pt;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(2, 132, 199, 0.03), rgba(79, 70, 229, 0.03)),
+        rgba(255, 255, 255, 0.52);
+      border: 1pt solid rgba(148, 163, 184, 0.14);
+      min-height: 184mm;
+    }
+
+    .cover-art::before,
+    .cover-art::after {
+      content: '';
+      position: absolute;
+      inset: auto;
+      border-radius: 999pt;
+      filter: blur(2px);
+    }
+
+    .cover-art::before {
+      width: 180pt;
+      height: 180pt;
+      top: 22pt;
+      right: -34pt;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.18), rgba(125, 211, 252, 0.02) 70%);
+    }
+
+    .cover-art::after {
+      width: 220pt;
+      height: 220pt;
+      bottom: -48pt;
+      left: -46pt;
+      background: radial-gradient(circle, rgba(165, 180, 252, 0.14), rgba(165, 180, 252, 0.01) 70%);
+    }
+
+    .cover-orbit,
+    .cover-orbit::before,
+    .cover-orbit::after {
+      position: absolute;
+      border-radius: 999pt;
+      border: 1pt solid rgba(79, 70, 229, 0.12);
+      content: '';
+    }
+
+    .cover-orbit {
+      width: 240pt;
+      height: 240pt;
+      top: 30pt;
+      left: 28pt;
+    }
+
+    .cover-orbit::before {
+      width: 168pt;
+      height: 168pt;
+      top: 36pt;
+      left: 36pt;
+    }
+
+    .cover-orbit::after {
+      width: 92pt;
+      height: 92pt;
+      top: 74pt;
+      left: 74pt;
+      background: radial-gradient(circle, rgba(30, 64, 175, 0.08), rgba(30, 64, 175, 0.01));
+    }
+
+    .cover-lines {
+      position: absolute;
+      inset: 24pt;
+      border-radius: 12pt;
+      border: 1pt solid rgba(148, 163, 184, 0.1);
+      background:
+        linear-gradient(rgba(148, 163, 184, 0.08) 1pt, transparent 1pt),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1pt, transparent 1pt);
+      background-size: 24pt 24pt;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 92%);
+    }
+
+    .print-cover h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 34pt;
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      margin: 18pt 0 10pt;
+      max-width: 10ch;
+      color: var(--ink);
+    }
+
+    .print-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5pt;
+      letter-spacing: 2.6pt;
+      text-transform: uppercase;
+      color: var(--sky);
+    }
+
+    .print-subtitle {
+      max-width: 34ch;
+      font-family: 'Instrument Serif', 'Source Serif 4', serif;
+      font-size: 16pt;
+      line-height: 1.3;
+      color: var(--muted);
+      margin: 0 0 16pt;
+    }
+
+    .cover-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16pt;
+      margin-top: 28pt;
+      padding-top: 18pt;
+      border-top: 1pt solid rgba(148, 163, 184, 0.16);
+    }
+
+    .print-edition {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0 0 4pt;
+    }
+
+    .print-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5pt;
+      letter-spacing: 1pt;
+      color: var(--muted);
+    }
+
+    .print-contents {
+      page-break-after: always;
+      min-height: 246mm;
+      padding: 12pt 0 0;
+    }
+
+    .contents-shell {
+      background: transparent;
+      border-top: 1.5pt solid rgba(30, 64, 175, 0.18);
+      padding: 18pt 0 0;
+    }
+
+    .contents-head {
+      margin-bottom: 16pt;
+      padding-bottom: 12pt;
+      border-bottom: 1pt solid var(--line);
+    }
+
+    .contents-kicker {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5pt;
+      letter-spacing: 2pt;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin: 0;
+    }
+
+    .contents-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24pt;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .contents-grid {
+      columns: 2;
+      column-gap: 22pt;
+    }
+
+    .contents-item {
+      display: block;
+      break-inside: avoid;
+      padding: 0 0 10pt;
+      margin: 0 0 10pt;
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.12);
+    }
+
+    .contents-item-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10pt;
+      margin-bottom: 4pt;
+    }
+
+    .contents-item-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8pt;
+      letter-spacing: 1.4pt;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .contents-item-time {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      color: var(--sky);
+    }
+
+    .contents-item-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.4pt;
+      line-height: 1.2;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .chapter-page {
+      page-break-before: always;
+      padding-top: 0;
+    }
+
+    .chapter-shell {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+    }
+
+    .chapter-hero {
+      position: relative;
+      padding: 4pt 0 16pt;
+      margin-bottom: 18pt;
+      background: transparent;
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.18);
+    }
+
+    .chapter-kicker-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14pt;
+      margin-bottom: 12pt;
+    }
+
+    .chapter-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8pt;
+      flex-wrap: wrap;
+    }
+
+    .chapter-label {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 8pt;
+      letter-spacing: 1.9pt;
+      text-transform: uppercase;
+      color: var(--sky);
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+
+    .chapter-reading-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 7pt;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .chapter-reading-time::before {
+      content: '';
+      width: 7pt;
+      height: 7pt;
+      border-radius: 999pt;
+      background: linear-gradient(135deg, var(--sky), var(--indigo));
+    }
+
+    .chapter-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24pt;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin: 0 0 8pt;
+      max-width: 15ch;
+    }
+
+    .chapter-desc {
+      max-width: 52ch;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.2pt;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 12pt;
+    }
+
+    .chapter-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7pt;
+    }
+
+    .chapter-tool {
+      display: inline-flex;
+      align-items: center;
+      padding: 4pt 8pt;
+      border-radius: 999pt;
+      background: transparent;
+      border: 1pt solid rgba(148, 163, 184, 0.18);
+      font-family: 'Space Mono', monospace;
+      font-size: 8pt;
+      letter-spacing: 0.7pt;
+      color: var(--body);
+    }
+
+    .chapter-body {
+      padding: 0;
+      font-size: 11.2pt;
+      line-height: 1.72;
+      color: var(--body);
+    }
+
+    .chapter-body > p:first-of-type {
+      font-size: 11.2pt;
+      color: var(--body);
+    }
+
+    .chapter-body > p:first-of-type::first-letter {
+      float: none;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      font-weight: inherit;
+      color: inherit;
+      margin-right: 0;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22pt;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-top: 0;
+    }
+
+    h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16pt;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 24pt 0 10pt;
+      padding-bottom: 6pt;
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.2);
+      page-break-after: avoid;
+      break-after: avoid-page;
+    }
+
+    h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.6pt;
+      line-height: 1.25;
+      color: var(--ink);
+      margin: 18pt 0 8pt;
+      page-break-after: avoid;
+      break-after: avoid-page;
+    }
+
+    h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.6pt;
+      color: var(--ink);
+      margin: 12pt 0 6pt;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 9pt;
+      widows: 3;
+      orphans: 3;
+    }
+
+    strong {
+      color: var(--ink);
+    }
+
+    em {
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-decoration-color: rgba(30, 64, 175, 0.35);
+      text-underline-offset: 2pt;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      margin: 14pt 0 16pt;
+      border: 1pt solid rgba(148, 163, 184, 0.18);
+      border-radius: 10pt;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 8pt 10pt;
+      font-size: 9pt;
+      vertical-align: top;
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.14);
+    }
+
+    th {
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.08), rgba(79, 70, 229, 0.08));
+      font-family: 'Space Mono', monospace;
+      font-size: 7.8pt;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(233, 238, 247, 0.42);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    pre,
+    code {
+      font-family: 'Space Mono', monospace;
+    }
+
+    pre {
+      background: linear-gradient(180deg, #0f172a, #16233b);
+      color: var(--code-fg);
+      padding: 14pt 16pt;
+      border-radius: 16pt;
+      page-break-inside: avoid;
+      margin: 12pt 0 14pt;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      border: 1pt solid rgba(255, 255, 255, 0.08);
+      font-size: 8.5pt;
+      line-height: 1.7;
+    }
+
+    code {
+      font-size: 8.7pt;
+      background: rgba(30, 64, 175, 0.08);
+      color: var(--blue);
+      padding: 1pt 4pt;
+      border-radius: 5pt;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    blockquote {
+      position: relative;
+      padding: 12pt 14pt 12pt 16pt;
+      margin: 14pt 0 16pt;
+      border-left: 3pt solid var(--sky);
+      border-radius: 0 10pt 10pt 0;
+      background: rgba(2, 132, 199, 0.05);
+      color: var(--ink);
+      page-break-inside: avoid;
+      break-inside: avoid-page;
+    }
+
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(148, 163, 184, 0.22);
+      margin: 18pt 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 18pt;
+      margin: 0 0 10pt;
+    }
+
+    li {
+      margin-bottom: 5pt;
+    }
+
+    pre,
+    img,
+    figure,
+    blockquote {
+      break-inside: avoid-page;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    tbody,
+    tr,
+    td,
+    th {
+      break-inside: auto;
+    }
+
+    .contributors-page .chapter-hero {
+      margin-bottom: 14pt;
+    }
+
+    .contributors-print-sections {
+      display: grid;
+      gap: 18pt;
+      margin-top: 8pt;
+    }
+
+    .contributors-print-section {
+      break-inside: avoid-page;
+    }
+
+    .contributors-print-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8pt;
+      letter-spacing: 1.8pt;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 8pt;
+    }
+
+    .contributors-print-feature {
+      display: flex;
+      flex-direction: column;
+      gap: 3pt;
+      padding: 10pt 0 12pt;
+      border-top: 1pt solid rgba(148, 163, 184, 0.14);
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.14);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .contributors-print-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .contributors-print-handle {
+      font-family: 'Space Mono', monospace;
+      font-size: 8pt;
+      color: var(--muted);
+    }
+
+    .contributors-print-note {
+      font-size: 10pt;
+      color: var(--body);
+    }
+
+    .contributors-print-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10pt 16pt;
+    }
+
+    .contributors-print-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      padding: 8pt 0;
+      border-bottom: 1pt solid rgba(148, 163, 184, 0.14);
+      text-decoration: none;
+      color: inherit;
+      break-inside: avoid-page;
+    }
+
+    .contributors-print-login {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 12pt;
+    }
+
+    .chapter-body > ul:last-child,
+    .chapter-body > ol:last-child,
+    .chapter-body > table:last-child,
+    .chapter-body > blockquote:last-child,
+    .chapter-body > p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media print {
+      nav,
+      .sidebar,
+      .toc,
+      header,
+      footer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <slot />
+</body>
+</html>

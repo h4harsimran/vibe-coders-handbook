@@ -1,0 +1,344 @@
+---
+// Hero.astro — Terminal-card style hero, community-forward framing
+---
+
+<section class="hero-section" id="hero">
+  <div class="hero-noise"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow hero-stagger" style="--stagger-index: 0">
+      <span>Open Source · Community Edition · 2026</span>
+    </div>
+
+    <h1 class="hero-title hero-stagger" style="--stagger-index: 1">
+      The <span class="hero-title-accent">Vibe Coder's</span> Handbook
+    </h1>
+
+    <p class="hero-lead hero-stagger" style="--stagger-index: 2">
+      22 chapters explaining every tool your AI just used. No fluff, no paywalls — just the clearest map of the modern JavaScript ecosystem that exists.
+    </p>
+
+    <div class="hero-actions hero-stagger" style="--stagger-index: 3">
+      <a href="/chapters/introduction" class="btn-primary" id="hero-read-btn">
+        Read Online Free →
+      </a>
+      <a href="/TheVibeCodersHandbook.pdf" class="btn-outline" download id="hero-pdf-btn">
+        Download PDF
+      </a>
+    </div>
+
+    <div class="hero-meta hero-stagger" style="--stagger-index: 4">
+      <span class="meta-pill">22 Chapters</span>
+      <span class="meta-sep">·</span>
+      <span class="meta-pill">35+ Tools Explained</span>
+      <span class="meta-sep">·</span>
+      <span class="meta-pill">$0 Forever</span>
+    </div>
+  </div>
+
+  <div class="hero-right hero-stagger" style="--stagger-index: 2">
+    <div class="terminal-card" aria-hidden="true">
+      <div class="terminal-header">
+        <span class="t-dot t-red"></span>
+        <span class="t-dot t-yellow"></span>
+        <span class="t-dot t-green"></span>
+        <span class="t-title">what-is-this.md</span>
+      </div>
+      <div class="terminal-body">
+        <p class="t-comment"># Your AI just generated this stack:</p>
+        <p><span class="t-key">React</span> <span class="t-arrow">→</span> <span class="t-val">UI components</span></p>
+        <p><span class="t-key">Next.js</span> <span class="t-arrow">→</span> <span class="t-val">the meta-framework</span></p>
+        <p><span class="t-key">TypeScript</span> <span class="t-arrow">→</span> <span class="t-val">typed JavaScript</span></p>
+        <p><span class="t-key">Tailwind</span> <span class="t-arrow">→</span> <span class="t-val">utility CSS</span></p>
+        <p><span class="t-key">Drizzle</span> <span class="t-arrow">→</span> <span class="t-val">the ORM / DB layer</span></p>
+        <p><span class="t-key">Zod</span> <span class="t-arrow">→</span> <span class="t-val">schema validation</span></p>
+        <p><span class="t-key">Zustand</span> <span class="t-arrow">→</span> <span class="t-val">state management</span></p>
+        <p class="t-blank">&nbsp;</p>
+        <p class="t-comment"># Confused? This handbook explains all of it.</p>
+        <p class="t-cursor"><span class="cursor-blink">▊</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    padding: 120px 80px 80px;
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--sky) 10%, transparent), transparent 34%),
+      radial-gradient(circle at 85% 22%, color-mix(in srgb, var(--indigo) 8%, transparent), transparent 30%),
+      linear-gradient(180deg, color-mix(in srgb, var(--surface-soft) 62%, var(--bg)), var(--bg));
+    position: relative;
+    overflow: hidden;
+    contain: layout style;
+  }
+
+  /* Hero entrance choreography */
+  .hero-stagger {
+    opacity: 0;
+    transform: translateY(24px) translateZ(0);
+    animation: heroReveal 0.7s var(--ease-out-quart) forwards;
+    animation-delay: calc(var(--stagger-index, 0) * 120ms + 100ms);
+    will-change: opacity, transform;
+  }
+
+  @keyframes heroReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
+    }
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-left, .hero-right {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--text-strong);
+    line-height: 0.96;
+    margin: 0 0 var(--space-sm);
+    letter-spacing: -0.03em;
+    max-width: 9ch;
+    text-wrap: balance;
+  }
+
+  .hero-title-accent {
+    color: var(--blue);
+    font-style: normal;
+  }
+
+  :global(.dark) .hero-title-accent {
+    color: var(--sky);
+  }
+
+  .hero-lead {
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--text-base);
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-lg);
+    max-width: 440px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--blue), var(--indigo));
+    color: var(--text-on-dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo), filter 0.2s var(--ease-out-expo);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 24px var(--shadow-accent);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px var(--shadow-accent);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-raised);
+    color: var(--text-strong);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease-out-expo), background 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+    border: 1px solid var(--line-soft);
+}
+
+  .btn-outline:hover {
+    background: var(--surface-soft);
+    border-color: var(--interactive-border-strong);
+    transform: translateY(-1px);
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-subtle);
+    letter-spacing: 0.5px;
+  }
+
+  .meta-sep {
+    color: var(--line-strong);
+  }
+
+  /* Terminal card */
+  .terminal-card {
+    background: var(--term-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--term-border);
+    box-shadow: var(--shadow-strong), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    font-family: 'Space Mono', monospace;
+    position: relative;
+  }
+
+  .terminal-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 4px 100%;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.25;
+    animation: scanline-drift 10s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes scanline-drift {
+    from { transform: translateY(0) translateZ(0); }
+    to { transform: translateY(100%) translateZ(0); }
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    background: var(--term-header);
+    border-bottom: 1px solid var(--term-border);
+  }
+
+  .t-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .t-red { background: var(--term-red); }
+  .t-yellow { background: var(--term-yellow); }
+  .t-green { background: var(--term-green); }
+
+  .t-title {
+    margin-left: 4px;
+    font-size: 12px;
+    color: var(--term-comment);
+  }
+
+  .terminal-body {
+    padding: 24px 28px;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--term-text);
+    position: relative;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.16);
+  }
+
+  .terminal-body p { margin: 0; }
+
+  .t-comment { color: var(--term-comment); font-style: italic; margin-bottom: 8px !important; }
+  .t-key { color: var(--term-key); }
+  .t-arrow { color: var(--term-comment); margin: 0 6px; }
+  .t-val { color: var(--term-val); }
+  .t-blank { line-height: 0.8 !important; }
+
+  .cursor-blink {
+    color: var(--term-cursor);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 900px) {
+    .hero-section {
+      grid-template-columns: 1fr;
+      padding: 100px 24px 60px;
+      gap: 48px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      justify-content: center;
+    }
+    .hero-title { 
+      font-size: clamp(42px, 12vw, 64px); 
+      margin-inline: auto;
+      max-width: 10ch;
+      line-height: 1;
+    }
+    .hero-lead {
+      margin-inline: auto;
+    }
+    .hero-actions {
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-primary, .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+    .hero-meta {
+      justify-content: center;
+    }
+    .terminal-card { 
+      font-size: 12px; 
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .terminal-body {
+      padding: 16px 20px;
+      min-width: 320px;
+    }
+  }
+</style>
