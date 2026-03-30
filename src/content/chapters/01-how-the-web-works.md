@@ -18,17 +18,14 @@ Before we can talk about any framework or tool, you need to understand the funda
 | **Database** | Stores all persistent data: user accounts, posts, products, orders, settings, files, logs | On a server \(often the same one, sometimes a managed service\) |
 
 
----
+## The Restaurant Analogy
 
-> 🍳 **The Restaurant Analogy**
->
-> Think of a web app like a restaurant. The frontend is the dining room: the menu, the tables, the decor, the plates, the lighting, everything the customer sees and touches. The backend is the kitchen: the chef who receives orders, checks them, prepares food according to recipes, and sends it back out. The database is the pantry and recipe book: where all the ingredients and knowledge are stored permanently.
->
-> When a customer (the user) looks at the menu (the frontend) and places an order (clicks a button or submits a form), the waiter (an HTTP request sent over the internet) carries that order to the kitchen (the backend). The chef looks up the recipe, checks the pantry (the database) for ingredients, prepares the dish, and the waiter carries it back to the dining room (the response appears on screen).
->
-> Every single tool in this book fits into one of these three layers or helps connect them. When you feel lost later in the book, come back to this analogy. Ask yourself: is this tool a dining room thing (frontend), a kitchen thing (backend), or a pantry thing (database)?
+Think of a web app like a restaurant. The frontend is the dining room: the menu, the tables, the decor, the plates, the lighting, everything the customer sees and touches. The backend is the kitchen: the chef who receives orders, checks them, prepares food according to recipes, and sends it back out. The database is the pantry and recipe book: where all the ingredients and knowledge are stored permanently.
 
----
+When a customer (the user) looks at the menu (the frontend) and places an order (clicks a button or submits a form), the waiter (an HTTP request sent over the internet) carries that order to the kitchen (the backend). The chef looks up the recipe, checks the pantry (the database) for ingredients, prepares the dish, and the waiter carries it back to the dining room (the response appears on screen).
+
+Every single tool in this book fits into one of these three layers or helps connect them. When you feel lost later in the book, come back to this analogy. Ask yourself: is this tool a dining room thing (frontend), a kitchen thing (backend), or a pantry thing (database)?
+
 
 ## The Three Languages of the Web
 
