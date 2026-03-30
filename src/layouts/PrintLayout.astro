@@ -584,10 +584,22 @@
       margin: 18pt 0;
     }
 
-    ul,
-    ol {
+    ul {
+      list-style-type: disc;
       padding-left: 18pt;
       margin: 0 0 10pt;
+    }
+
+    ol {
+      list-style-type: decimal;
+      padding-left: 18pt;
+      margin: 0 0 10pt;
+    }
+
+    ul ul,
+    ol ul {
+      list-style-type: circle;
+      margin-top: 4pt;
     }
 
     li {
