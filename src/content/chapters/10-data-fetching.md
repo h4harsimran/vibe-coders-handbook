@@ -27,9 +27,13 @@ TanStack Query has become so essential that many developers consider it a requir
 
 SWR \(Stale-While-Revalidate\) is an alternative by the Next.js team \(Vercel\). The name refers to a caching strategy: show stale \(old cached\) data immediately to the user, then revalidate \(fetch fresh data\) in the background and seamlessly update the display when fresh data arrives. TanStack Query does this too, but SWR was named after the pattern. SWR is simpler with fewer configuration options, which makes it quicker to learn but less flexible for complex scenarios.
 
-> 🔑 **The Key Distinction**
+---
 
-TanStack Query manages SERVER state \(data from your API\). Zustand manages CLIENT state \(UI data like toggles and form inputs\). They solve completely different problems and are used together, not as alternatives. The standard combination in 2026 is: Zustand for client state \+ TanStack Query for server state.
+> 🔑 **The Key Distinction**
+>
+> TanStack Query manages SERVER state (data from your API). Zustand manages CLIENT state (UI data like toggles and form inputs). They solve completely different problems and are used together, not as alternatives. The standard combination in 2026 is: Zustand for client state + TanStack Query for server state.
+
+---
 
 ## Additional Learning Resources
 

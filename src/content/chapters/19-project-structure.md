@@ -34,6 +34,10 @@ When AI generates a project, it creates many files. Here is what the important o
 | `public/` | Static files \(images, fonts\) served directly to browser |
 | `db/` or `drizzle/` | Database schema and migration files |
 
+---
+
 > ⚠️ **The `node_modules` Folder**
 >
 > This contains all downloaded packages. It can be hundreds of MB. NEVER edit it, NEVER commit it to Git. If it breaks, delete it and run `npm install` to recreate it.
+
+---

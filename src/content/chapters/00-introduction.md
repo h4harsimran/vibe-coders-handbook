@@ -17,8 +17,12 @@ This book fixes that.
 
 We will not teach you how to code. There are thousands of tutorials for that, and the learning resources at the end of each chapter will point you to the best ones. Instead, we will teach you what every major tool in the ecosystem does, what job each one performs, which ones are interchangeable \(either/or choices\), and which ones work together. By the end, when your AI generates a project with React, Next.js, Tailwind, Drizzle, and Zod, you will understand exactly what each piece does and why it is there.
 
-> 💡 **Who Is This Book For?**
+---
 
-Vibe coders who build apps with AI and want to understand what their code does. Returning developers who left programming years ago and found the ecosystem unrecognizable. Managers and founders who work with developers and want to speak the language. Anyone curious about modern web development who finds every tutorial assumes prior knowledge.
+> 💡 **Who Is This Book For?**
+>
+> Vibe coders who build apps with AI and want to understand what their code does. Returning developers who left programming years ago and found the ecosystem unrecognizable. Managers and founders who work with developers and want to speak the language. Anyone curious about modern web development who finds every tutorial assumes prior knowledge.
+
+---
 
 *A note on depth: this book explains concepts, not syntax. We tell you what React is and why it exists, not how to write your first React component. The "Additional Learning Resources" at the end of each chapter point you to excellent tutorials for the hands-on part. Think of this book as the map, and those tutorials as the driving lessons. Let us begin.*

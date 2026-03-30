@@ -31,6 +31,10 @@ Security is not optional and not something you can "add later." It must be baked
 - **Validate ALL inputs:** Use Zod on every piece of data that enters your server. Never assume data is the right type, length, or format. Validation prevents entire categories of attacks.
 - **Use an ORM for database queries:** ORMs like Drizzle and Prisma automatically prevent SQL injection attacks \(where an attacker puts malicious SQL code in a form field\). If you write raw SQL, you must manually sanitize every input, which is easy to forget.
 
-> ⚠️ **Security Warning for Vibe Coders**
+---
 
-A 2025 study found that 45% of AI-generated code contained security vulnerabilities. Another study found 170 critical vulnerabilities in 1,645 analyzed vibe-coded apps. AI tools are excellent at generating functional code but often take shortcuts on security. When your AI builds a login system, payment flow, or anything handling sensitive data, have someone with security experience review it before putting it in front of real users. Functionality is not the same as security.
+> ⚠️ **Security Warning for Vibe Coders**
+>
+> A 2025 study found that 45% of AI-generated code contained security vulnerabilities. Another study found 170 critical vulnerabilities in 1,645 analyzed vibe-coded apps. AI tools are excellent at generating functional code but often take shortcuts on security. When your AI builds a login system, payment flow, or anything handling sensitive data, have someone with security experience review it before putting it in front of real users. Functionality is not the same as security.
+
+---

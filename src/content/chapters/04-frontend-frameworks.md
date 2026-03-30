@@ -43,9 +43,13 @@ Created by Rich Harris in 2016, Svelte takes a radical approach. React, Vue, and
 
 - **Best for:** Performance-critical apps, small to medium projects, developers who want the simplest, most concise syntax.
 
-> 🔑 **These Are Either/Or**
+---
 
-You pick ONE frontend framework per project. You do not combine React and Vue, or Angular and Svelte. They solve the same problem differently. In 2026, React holds roughly 40-45% market share, Vue 18-20%, Angular 15-18%, and Svelte 5-8%. If you have no strong preference, React is the safe default because of its enormous ecosystem, job market, and community.
+> 🔑 **These Are Either/Or**
+>
+> You pick ONE frontend framework per project. You do not combine React and Vue, or Angular and Svelte. They solve the same problem differently. In 2026, React holds roughly 40-45% market share, Vue 18-20%, Angular 15-18%, and Svelte 5-8%. If you have no strong preference, React is the safe default because of its enormous ecosystem, job market, and community.
+
+---
 
 ## Additional Learning Resources
 

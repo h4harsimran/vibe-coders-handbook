@@ -29,6 +29,10 @@ Error messages are the biggest source of frustration for vibe coders. Here are t
 | CORS error | Browser blocked cross-domain request | Configure CORS headers on backend |
 | npm ERR\! peer dep | Package version conflicts | Try `npm install --legacy-peer-deps` |
 
-> 🔑 **The Golden Rule**
+---
 
-Read the FIRST line of the error carefully. Copy it into Google or your AI tool. 90% of errors have been encountered and solved by others before you.
+> 🔑 **The Golden Rule**
+>
+> Read the FIRST line of the error carefully. Copy it into Google or your AI tool. 90% of errors have been encountered and solved by others before you.
+
+---

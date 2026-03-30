@@ -24,9 +24,13 @@ Zustand \(“state” in German\) is the most popular client state library in 20
 
 TanStack Query \(formerly React Query\) handles server state: fetching, caching, background refetching, retry logic, loading states, and error handling. Without it, every component that needs data from your API must manually handle all of this. TanStack Query automates it. It is used alongside Zustand, not instead of it.
 
-> 🔑 **They Work Together**
+---
 
-Zustand handles client state \(UI things\). TanStack Query handles server state \(data from your API\). The most common stack in 2026 is: Zustand \+ TanStack Query \+ React Hook Form. Together, they cover virtually every state management need.
+> 🔑 **They Work Together**
+>
+> Zustand handles client state (UI things). TanStack Query handles server state (data from your API). The most common stack in 2026 is: Zustand + TanStack Query + React Hook Form. Together, they cover virtually every state management need.
+
+---
 
 ## Additional Learning Resources
 

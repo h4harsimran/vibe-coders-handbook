@@ -19,9 +19,13 @@ Git is version control: an undo system for your entire project. Every meaningful
 | Pull Request | A proposal to merge changes | Submitting your draft for review |
 | Push / Pull | Upload to / download from the cloud | Syncing with a shared drive |
 
-> 🔑 **For Vibe Coders**
+---
 
-Even if AI writes all your code, you need Git. Most deployment platforms \(Vercel, Netlify\) connect to GitHub: push code, and they auto-deploy. Understanding commit, push, and pull is essential.
+> 🔑 **For Vibe Coders**
+>
+> Even if AI writes all your code, you need Git. Most deployment platforms (Vercel, Netlify) connect to GitHub: push code, and they auto-deploy. Understanding commit, push, and pull is essential.
+
+---
 
 ## Additional Learning Resources
 

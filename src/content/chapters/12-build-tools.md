@@ -30,9 +30,13 @@ Turbopack is the build tool built into Next.js, created by Vercel. If you use Ne
 | Library published to npm | Rollup or tsup | Yes |
 | Older/legacy project | Webpack | Inherited \(do not switch unless needed\) |
 
-> 🔑 **Why This Matters**
+---
 
-You rarely configure build tools directly. Your framework or meta-framework handles it. But when you see "Vite" or "Turbopack" in error messages or documentation, you now know what they are: the translator between your development code and the browser-ready code.
+> 🔑 **Why This Matters**
+>
+> You rarely configure build tools directly. Your framework or meta-framework handles it. But when you see "Vite" or "Turbopack" in error messages or documentation, you now know what they are: the translator between your development code and the browser-ready code.
+
+---
 
 ## Additional Learning Resources
 

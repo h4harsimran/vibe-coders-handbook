@@ -41,9 +41,13 @@ The problem: if you do not understand what it chose, you cannot debug problems w
 
 That is exactly why this book exists. You do not need to memorize every tool or write code from scratch. But you need to recognize the tools, understand their jobs, and know which are interchangeable. When your AI generates a Next.js project with Drizzle and Zustand, you should be able to say: "Ah, Next.js handles both frontend \(React inside\) and backend \(API routes\). Drizzle talks to my database. Zustand manages shared UI state. Got it."
 
-> ⚠️ **The Honest Limits of Vibe Coding**
+---
 
-Vibe coding works brilliantly for prototypes, personal projects, internal tools, and MVPs \(Minimum Viable Products\). But production applications that handle sensitive data, process payments, or serve thousands of users still need human expertise for security review, performance optimization, architectural decisions, and edge case handling. The best approach in 2026: vibe code the initial version, then have experienced developers review and harden it for production.
+> ⚠️ **The Honest Limits of Vibe Coding**
+>
+> Vibe coding works brilliantly for prototypes, personal projects, internal tools, and MVPs (Minimum Viable Products). But production applications that handle sensitive data, process payments, or serve thousands of users still need human expertise for security review, performance optimization, architectural decisions, and edge case handling. The best approach in 2026: vibe code the initial version, then have experienced developers review and harden it for production.
+
+---
 
 ## Additional Learning Resources
 

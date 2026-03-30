@@ -19,9 +19,13 @@ Before Node.js, JavaScript was trapped inside the browser. It could make web pag
 
 Node.js changed everything. Suddenly, one language could work everywhere. A developer could write JavaScript for the frontend AND the backend. Teams could share code between client and server. The same person could build the entire application. This "JavaScript everywhere" vision is the reason the Node.js ecosystem exploded into the massive landscape you see today.
 
-> 💡 **Why This Matters**
+---
 
-Node.js is not a framework, not a library, and not a language. It is a runtime: an environment where JavaScript code executes. Think of it as the engine. Everything else in this book \(React, Express, Next.js, Drizzle, etc.\) is built to run on this engine. When you install Node.js on your computer, you are installing the ability to run JavaScript outside of a browser.
+> 💡 **Why This Matters**
+>
+> Node.js is not a framework, not a library, and not a language. It is a runtime: an environment where JavaScript code executes. Think of it as the engine. Everything else in this book (React, Express, Next.js, Drizzle, etc.) is built to run on this engine. When you install Node.js on your computer, you are installing the ability to run JavaScript outside of a browser.
+
+---
 
 ## npm: The App Store for Code
 
@@ -48,9 +52,13 @@ npm is the default package manager, but alternatives exist that trade compatibil
 | Yarn Berry | Fast | No `node_modules` \(PnP mode\) | Plug'n'Play eliminates `node_modules` entirely | Teams wanting zero-install workflows |
 | Bun | 3-5x faster | Standard | All-in-one runtime \+ bundler \+ package manager | Speed-obsessed developers |
 
-> ⚠️ **Recommendation**
+---
 
-These are either/or choices per project. If you are starting out, use npm. It comes free with Node.js, every tutorial uses it, and it works reliably. Consider pnpm or Bun later when you have a specific reason \(like saving disk space across many projects or needing faster installs in CI/CD pipelines\).
+> ⚠️ **Recommendation**
+>
+> These are either/or choices per project. If you are starting out, use npm. It comes free with Node.js, every tutorial uses it, and it works reliably. Consider pnpm or Bun later when you have a specific reason (like saving disk space across many projects or needing faster installs in CI/CD pipelines).
+
+---
 
 ## Additional Learning Resources
 

@@ -18,13 +18,17 @@ Before we can talk about any framework or tool, you need to understand the funda
 | **Database** | Stores all persistent data: user accounts, posts, products, orders, settings, files, logs | On a server \(often the same one, sometimes a managed service\) |
 
 
-## The Restaurant Analogy
+---
 
-Think of a web app like a restaurant. The frontend is the dining room: the menu, the tables, the decor, the plates, the lighting, everything the customer sees and touches. The backend is the kitchen: the chef who receives orders, checks them, prepares food according to recipes, and sends it back out. The database is the pantry and recipe book: where all the ingredients and knowledge are stored permanently.
+> 🍳 **The Restaurant Analogy**
+>
+> Think of a web app like a restaurant. The frontend is the dining room: the menu, the tables, the decor, the plates, the lighting, everything the customer sees and touches. The backend is the kitchen: the chef who receives orders, checks them, prepares food according to recipes, and sends it back out. The database is the pantry and recipe book: where all the ingredients and knowledge are stored permanently.
+>
+> When a customer (the user) looks at the menu (the frontend) and places an order (clicks a button or submits a form), the waiter (an HTTP request sent over the internet) carries that order to the kitchen (the backend). The chef looks up the recipe, checks the pantry (the database) for ingredients, prepares the dish, and the waiter carries it back to the dining room (the response appears on screen).
+>
+> Every single tool in this book fits into one of these three layers or helps connect them. When you feel lost later in the book, come back to this analogy. Ask yourself: is this tool a dining room thing (frontend), a kitchen thing (backend), or a pantry thing (database)?
 
-When a customer \(the user\) looks at the menu \(the frontend\) and places an order \(clicks a button or submits a form\), the waiter \(an HTTP request sent over the internet\) carries that order to the kitchen \(the backend\). The chef looks up the recipe, checks the pantry \(the database\) for ingredients, prepares the dish, and the waiter carries it back to the dining room \(the response appears on screen\).
-
-Every single tool in this book fits into one of these three layers or helps connect them. When you feel lost later in the book, come back to this analogy. Ask yourself: is this tool a dining room thing \(frontend\), a kitchen thing \(backend\), or a pantry thing \(database\)?
+---
 
 ## The Three Languages of the Web
 
@@ -36,9 +40,13 @@ Every browser on earth, whether it is Chrome on a laptop, Safari on an iPhone, o
 | **CSS** | Defines how everything looks: colors, fonts, spacing, layout, shadows, animations, responsiveness | Interior design: paint colors, furniture arrangement, lighting choices |
 | **JavaScript** | Defines how things behave: what happens on click, how data moves, how the page updates without reloading | The electrical and plumbing systems: what makes things actually work and respond |
 
-> 💡 **The Critical Insight**
+---
 
-Every single tool in this book eventually produces HTML, CSS, and JavaScript. React produces HTML and JavaScript. Tailwind produces CSS. TypeScript compiles to JavaScript. Next.js produces all three. These tools do not replace the three languages; they are better, faster, more organized ways to write them. The browser never sees React or Tailwind. It only sees the HTML, CSS, and JavaScript they generate.
+> 💡 **The Critical Insight**
+>
+> Every single tool in this book eventually produces HTML, CSS, and JavaScript. React produces HTML and JavaScript. Tailwind produces CSS. TypeScript compiles to JavaScript. Next.js produces all three. These tools do not replace the three languages; they are better, faster, more organized ways to write them. The browser never sees React or Tailwind. It only sees the HTML, CSS, and JavaScript they generate.
+
+---
 
 ## Client vs. Server
 

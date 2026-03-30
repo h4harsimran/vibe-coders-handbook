@@ -41,9 +41,13 @@ Hono is ultralight and ultrafast, designed to run on edge runtimes \(Cloudflare 
 | Hono | Fastest | ~14 KB | Excellent | Easy | Edge computing, serverless |
 | Next.js Routes | Good | N/A | Excellent | Easy | Full-stack Next.js projects |
 
-> ⚠️ **Next.js Can Replace Your Backend**
+---
 
-If you use Next.js, its built-in API Routes and Server Actions can handle backend logic. For small to medium projects, this eliminates the need for a separate Express server. You only need a standalone backend when your server logic is complex, when multiple frontends share it, or when you need features like WebSockets or long-running background jobs.
+> ⚠️ **Next.js Can Replace Your Backend**
+>
+> If you use Next.js, its built-in API Routes and Server Actions can handle backend logic. For small to medium projects, this eliminates the need for a separate Express server. You only need a standalone backend when your server logic is complex, when multiple frontends share it, or when you need features like WebSockets or long-running background jobs.
+
+---
 
 ## Additional Learning Resources
 

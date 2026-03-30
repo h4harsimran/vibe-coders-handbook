@@ -19,9 +19,13 @@ TypeScript is JavaScript with a safety net added on top. Created by Microsoft in
 
 In regular JavaScript, a variable can hold anything. The language is "dynamically typed," meaning it figures out what type of data a variable holds while the code is running. This sounds flexible and convenient, but in practice it causes bugs that are incredibly hard to find:
 
-> ⚠️ **The Problem with Dynamic Typing**
+---
 
-In JavaScript, you might write: let price = 29.99, then somewhere else in your code, accidentally assign price = "free". JavaScript will not complain. Your code keeps running. Then, three files later, another function tries to do price \* 1.1 to calculate tax, and gets NaN \(Not a Number\) instead of 32.99. Finding where price became a string can take hours in a large codebase.
+> ⚠️ **The Problem with Dynamic Typing**
+>
+> In JavaScript, you might write: `let price = 29.99`, then somewhere else in your code, accidentally assign `price = "free"`. JavaScript will not complain. Your code keeps running. Then, three files later, another function tries to do `price * 1.1` to calculate tax, and gets `NaN` (Not a Number) instead of `32.99`. Finding where price became a string can take hours in a large codebase.
+
+---
 
 TypeScript prevents this entirely. You declare what type each variable should be, and the TypeScript compiler catches mistakes before your code ever runs. If you declare "let price: number = 29.99" and later try to assign price = "free", TypeScript immediately shows a red squiggly line in your editor and refuses to compile. The bug is caught in seconds, not hours.
 
@@ -41,9 +45,13 @@ As of 2026, the TypeScript vs. JavaScript debate is effectively settled. TypeScr
 | Codebase size | Fine under ~5,000 lines | Essential above ~10,000 lines; helpful at any size |
 | 2026 adoption | ~15% of new projects | ~85% of new professional projects \(Stack Overflow, GitHub data\) |
 
-> 🔑 **The Either/Or Decision**
+---
 
-For any given file, it is written in either JavaScript \(.js\) or TypeScript \(.ts\). You can mix them in the same project, but each file picks one. In 2026, use TypeScript for any project you plan to maintain. Use JavaScript only for throwaway scripts, quick experiments, or learning exercises.
+> 🔑 **The Either/Or Decision**
+>
+> For any given file, it is written in either JavaScript (`.js`) or TypeScript (`.ts`). You can mix them in the same project, but each file picks one. In 2026, use TypeScript for any project you plan to maintain. Use JavaScript only for throwaway scripts, quick experiments, or learning exercises.
+
+---
 
 ## Additional Learning Resources
 
